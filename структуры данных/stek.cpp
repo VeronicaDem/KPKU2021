@@ -1,8 +1,5 @@
 const int max = 100;
-struct Stek {
-	int top;
-	string s[max];
-};
+
 struct elem {
 	string info; // поле с данными
 	elem * next;

@@ -1,8 +1,5 @@
-const int max = 100;
-struct Stek {
-	int top;
-	string s[max];
-};
+
+// вариант реализации через список
 struct elem {
 	string info; // поле с данными
 	elem * next;
@@ -26,6 +23,32 @@ elem * AddElemLast(elem * head,string inf) {
 	curr->next = temp;
 	return head;
 }
+elem* outElem(elem* head) {
+	if (emptyStack(head)) {
+		cout << "Нет элементов" << endl;
+		return NULL;
+	}
+	elem* top = head;
+	if (head->next == NULL) {
+		head = NULL;
+		return head;
+	}
+	while (top->next != NULL) {
+		top = top->next;
+	}
+	elem* prev = head;
+	while (prev->next->next != NULL) {
+		prev = prev->next;
+	}
+	prev->next = NULL;
+	return top;
+}
+// вариант реализации через массив
+const int max = 100;
+struct Stek {
+	int top;
+	string s[max];
+};
 void initSt(Stek & St) {
 	St.top = -1;
 

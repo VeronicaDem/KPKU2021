@@ -41,52 +41,34 @@ void inQ(Queue& Qu, string x) {
     }
 }
 // реализация через список
-struct list {
-    int field;
-    struct list* ptr;
-};
 struct queue {
-    struct list* frnt, * rear;
+    char info; // поле с данными
+    queue* next;
 };
-void init(queue * q) {
-    q->frnt = 0;
-    q->rear = 0;
-}
-int isempty(queue* q) {
-    if (q->frnt == 0 && q->rear == 0)
-        return 1;
-    else
-        return 0;
-}
-void pushElem(queue* q, int field) {
-    if (isempty(q)) {
-        q->frnt =  new list;
-        q->frnt->field = field;
 
+queue* pushQueue(queue* head, char inf) {
+    queue* temp = new queue;
+    temp->info = inf;
+    temp->next = NULL;
+    queue* curr;
+    if (head == NULL) return temp;
+    curr = head;
+    while (curr->next != NULL) {
+        curr = curr->next;
     }
-    else {
-        list * p = q->rear;
-        while (p->ptr!= 0) {
-            p = p->ptr;
-        }
-        p->ptr = new list;
-        p->field = field;
-        p->ptr->ptr = 0;
-        q->rear = p->ptr;
-
-
-    }
+    curr->next = temp;
+    return head;
 }
-void pullElem(queue* qu, int & top) {
-    if (isempty(qu)) {
-        cout << "Пусто" << endl;
+queue* pullQueue(queue* head, string& answer) {
+    if (head == NULL) {
+        cout << "Нет элементов" << endl;
+        return NULL;
     }
-    else {
-        top = qu->frnt->field;
-        qu->frnt = qu->frnt->ptr;
-        if (qu->frnt == 0) {
-            qu->rear = 0;
-        }
-    }
+    queue* top = head;
+    head = head->next;
+    answer = top->info;
+    return head;
 }
-
+bool isempty(queue* q) {
+    return q == NULL;
+}

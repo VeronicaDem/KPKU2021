@@ -47,7 +47,7 @@ elem* inputElem(elem* head, string info) {
 bool emptyStack(elem* head) {
 	return head == NULL;
 }
-elem* outElem(elem* head) {
+elem* outElem(elem* head, string & answer) {
 	if (emptyStack(head)) {
 		cout << "Нет элементов" << endl;
 		return NULL;
@@ -55,6 +55,7 @@ elem* outElem(elem* head) {
 	elem* top = head;
 	if (head->next == NULL) {
 		head = NULL;
+		answer = top->info;
 		return head;
 	}
 	while (top->next != NULL) {
@@ -64,8 +65,10 @@ elem* outElem(elem* head) {
 	while (prev->next->next != NULL) {
 		prev = prev->next;
 	}
+
 	prev->next = NULL;
-	return top;
+	answer = top->info;
+	return head;
 }
 
 

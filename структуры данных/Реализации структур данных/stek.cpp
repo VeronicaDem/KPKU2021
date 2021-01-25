@@ -24,14 +24,14 @@ elem * AddElemLast(elem * head,string inf) {
 	return head;
 }
 elem* outElem(elem* head) {
-	if (emptyStack(head)) {
+	if (head == NULL) {
 		cout << "Нет элементов" << endl;
 		return NULL;
 	}
 	elem* top = head;
 	if (head->next == NULL) {
 		head = NULL;
-		return head;
+		return top;
 	}
 	while (top->next != NULL) {
 		top = top->next;

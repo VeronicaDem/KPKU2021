@@ -1,0 +1,6 @@
+﻿  Point.cpp
+C:\Users\Nica\Documents\училище\asd\useTriangular\Point.cpp(31,13): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+  Triangular.cpp
+  useTriangular.cpp
+  Создание кода...
+  useTriangular.vcxproj -> C:\Users\Nica\Documents\училище\asd\useTriangular\Debug\useTriangular.exe

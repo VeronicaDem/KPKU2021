@@ -15,22 +15,21 @@ string concat(string s, int i, int k) {
 }
 int main()
 {
-    setlocale(LC_ALL, "rus");
+    setlocale(LC_ALL,"rus");
     int n, m;
     cin >> n >> m;
     string a, b, s;
     cin >> a >> b >> s;
-    vector<int> v;
     hash<string> str_hash;
     int k = 0;
     int lenA = 1;
     int lenB = 1;
     while (lenA + lenB <= m) {
         for (int i = 0; i < n - lenA; i++) {
+  
             string s1 = concat(a, i, i + lenA);
             for (int j = 0; j < n - lenB; j++) {
                 string s2 = concat(b, j, j + lenB);
-                cout << s1 + s2 << endl;
                 if (str_hash(s1 + s2) == str_hash(s) && ((i <= j && i + lenA <= j + lenB) || i >= j && i + lenA >= j + lenB)) {
                     k++;
                 }
@@ -38,7 +37,22 @@ int main()
             lenB++;
         }
         lenA++;
-
+        lenB = 1;
+    }
+    lenA = lenB = 1;
+    while (lenA + lenB <= m) {
+      for (int i = 0; i < n - lenB; i++) {
+            string s1 = concat(b, i, i + lenB);
+            for (int j = 0; j < n - lenA; j++) {
+                string s2 = concat(a, j, j + lenA);
+                if (str_hash(s1 + s2) == str_hash(s) && ((i <= j && i + lenA <= j + lenB) || i >= j && i + lenA >= j + lenB)) {
+                    k++;
+                }
+            }
+            lenA++;
+        }
+        lenB++;
+        lenA = 1;
     }
     cout << k << endl;
 }

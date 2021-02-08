@@ -9,7 +9,7 @@ bool symmetric(list<int> & const li) {
     list<int>::iterator i = li.begin();
     list<int>::iterator i_end = li.end();
     i_end--;
-    while (i != i_end) {
+    while (i != i_end && next(i, 1) != i_end) {
         if (*i != *i_end) return false;
         i++;
         i_end--;

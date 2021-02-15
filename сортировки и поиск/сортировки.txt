@@ -1,0 +1,234 @@
+﻿#include <iostream>
+#include <cstdlib> // содержит srand() и rand()
+#include <ctime>   // содержит time()
+// сортировка выбором
+// по возрастанию
+void sort_choice(int * a, int n) {
+    for(int i = 0; i < n - 1; i++) {
+        int min = a[i];
+        for(int j = i; j < n; j++) {
+            if (min > a[j]) {
+                min = a[j];
+                a[j] = a[i];
+                a[i] = min;
+            }
+        }
+    }
+}
+// 2 вариант
+void sort_choice(int * a, int n) {
+	for (int i = 0; i < n - 1; i++) {
+		int min = a[i]; int p = i;
+		for (int j = i; j < n; j++) {
+			if (min > a[j]) {
+				min = a[j];
+				p = j;
+				
+			}
+			a[p] = a[i];
+			a[i] = min;
+		
+		}
+
+	}
+}
+void sort_choice2(int * a, int n) {
+    for(int i = 0; i < n - 1; i++) {
+        int max = a[i];
+        for(int j = n - 1; j > i; j--) {
+            if (max > a[j]) {
+                max = a[j];
+                a[j] = a[i];
+                a[i] = max;
+            }
+        }
+    }
+}
+// по убыванию
+void sort_choice3(int * a, int n) {
+    for(int i = 0; i < n - 1; i++) {
+        int max = a[i];
+        for(int j = i; j < n; j++) {
+            if (max < a[j]) {
+                max = a[j];
+                a[j] = a[i];
+                a[i] = max;
+            }
+        }
+    }
+}
+// пузырьком
+// по возрастанию
+void sort_bubble(int * a, int n){
+    for(int i = 0; i < n; i++){
+        for(int j = n - 1; j >= 1; j--){
+            if(a[j] < a[j - 1]){
+                int t = a[j];
+                a[j] = a[j - 1];
+                a[j - 1] = t;
+            }
+        }
+    }
+}
+// челночная сортировка (оптимизированная сортировка пузырьком) - сортировка вставками
+// вставка + сортировка до вставки
+void sort_chelnok(int * a,int n){
+    for(int i = 0; i < n - 1; i++) {
+        if (a[i] > a[i + 1]) {
+            int t = a[i];
+            a[i] = a[i + 1];
+            a[i + 1] = t;
+        }
+       /* for(int j = i; j >= 1; j--) {
+            if (a[j - 1] > a[j]){
+                int t = a[j];
+                a[j] = a[j - 1];
+                a[j - 1] = t;
+            }
+        }*/
+       for(int j = i; j >= 1 && a[j - 1] > a[j]; j--) { // учитывая, что последовательность уже отсортирована
+           int t = a[j];
+           a[j] = a[j - 1];
+           a[j - 1] = t;
+       }
+    }
+}
+// шейкерная сортировка
+void sort_shake(int * a, int n) {
+	int left = 0; int right = n - 1;
+	while (left != right) {
+		for (int i = right; i > 0; i--) {
+			if (a[i] < a[i - 1]) {
+				int t = a[i];
+				a[i] = a[i - 1];
+				a[i - 1] = t;
+			}
+		}
+		for (int j = left; j < n; j++) {
+			if (a[j - 1] > a[j]) {
+				int t = a[j - 1];
+				a[j - 1] = a[j];
+				a[j] = t;
+			}
+
+		}
+		right--;
+		left++;
+	}
+}
+// сортировка подсчетом (отображение элемента к выполнению условия несортировки)
+// по возрастанию
+void sort_count(int * a, int n) {
+    int c[n] = {};
+
+    for(int i = 0; i < n; i++){
+        for(int j = i + 1; j < n; j++){
+            if(a[i] > a[j]) c[i]++;
+            else c[j]++;
+        }
+    }
+    int b[n];
+    for(int i = 0; i < n; i++){
+        b[c[i]] = a[i];
+    }
+    for(int i = 0; i < n; i++){
+        a[i] = b[i];
+    }
+}
+// сортировка парных сравнений
+// по возрастанию
+void sort_pair(int * a, int n){
+    int flag = false;
+    while(!flag) {
+        flag = true;
+        for(int i = 0; i < n - 1; i += 2){
+            if (a[i] > a[i + 1]) {
+                int t = a[i];
+                a[i] = a[i + 1];
+                a[i + 1] = t;
+                flag = false;
+            }
+        }
+        for(int i = 1 ; i < n - 1 ; i += 2) {
+            if(a[i] > a[i + 1]) {
+                int t = a[i];
+                a[i] = a[i + 1];
+                a[i + 1] = t;
+                flag = false;
+            }
+        }
+    }
+}
+// сортировка хоара (версия 1)
+// проблемы - можно подобрать такой опорный элемент ,с которым алгоритм работает медленно
+void hoarsort(int * a, int first, int last) {
+    int i = first, j = last;
+    int f = a[(first + last)/2];
+    do {
+        while(a[i] < f) i++;
+        while(a[j] > f) j--;
+        if(i <= j) {
+            if(i < j) {
+                int t = a[i];
+                a[i] = a[j];
+                a[j] = t;
+            }
+            i++;
+            j--;
+        }
+    }while(i <= j);
+    if(i < last) {
+        hoarsort(a, i, last);
+    }
+    if(j > first){
+        hoarsort(a, first, j);
+    }
+}
+// сортировка хоара (версия 2)
+// опорный элемент выбирается рандомно
+void hoarsort2(int * a, int first, int last) {
+    int i = first, j = last;
+    int f = a[first + rand() % (last - first + 1)];
+    do {
+        while(a[i] < f) i++;
+        while(a[j] > f) j--;
+        if(i <= j) {
+            if(i < j) {
+                int t = a[i];
+                a[i] = a[j];
+                a[j] = t;
+            }
+            i++;
+            j--;
+        }
+    }while(i <= j);
+    if(i < last) {
+        hoarsort2(a, i, last);
+    }
+    if(j > first){
+        hoarsort2(a, first, j);
+    }
+}
+void shell_sort(int * a, int n) { // оптимизированная сортировка вставками
+	int d = n / 2;
+	while (d > 0) {
+		for (int i = 0; i < n - d; i++) {
+			int j = i;
+			while (j >= 0 && a[j] > a[j + d]) {
+				swap(a[j], a[j + d]);
+				j--;
+			}
+		}
+		d /= 2;
+	}
+}
+using namespace std;
+int main() {
+    int a[] = {1, 27, 13, 14, 32, 228, 0};
+    int n = sizeof(a)/sizeof(a[0]);
+    hoarsort2(a, 0, n - 1);
+    for(int i = 0; i < n; i++){
+        cout << a[i] << " ";
+    }
+    cout << endl;
+}
